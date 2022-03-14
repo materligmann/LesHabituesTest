@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     private func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 120
+        tableView.register(HabituesTableViewCell.self, forCellReuseIdentifier: HabituesTableViewCell.cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.model?.total ?? 0
+        return viewModel.model?.data.count ?? 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -49,6 +51,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: HabituesTableViewCell.cellIdentifier, for: indexPath) as? HabituesTableViewCell {
+            cell.set(shop: viewModel.model?.data[indexPath.row])
+            return cell
+        }
         return UITableViewCell()
     }
 }
