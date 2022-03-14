@@ -12,15 +12,15 @@ class ViewModel {
     
     var model: Model?
     
-    func fetchShops(completion: @escaping (Model) -> Void) {
+    func fetchShops(completion: @escaping () -> Void, onError: @escaping () -> Void) {
         AF.request("https://www.leshabitues.fr/testapi/shops").responseDecodable(of: Model.self) { response in
             debugPrint(response)
             switch response.result {
             case .success(let model):
                 self.model = model
-                completion(model)
+                completion()
             case .failure(let error):
-                break
+                onError()
             }
         }
     }

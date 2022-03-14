@@ -11,12 +11,13 @@ class ViewController: UIViewController {
 
     let viewModel = ViewModel()
     let tableView = UITableView(frame: .zero, style: .plain)
+    let indicator = UIActivityIndicatorView(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        
-        viewModel.fetchShops(completion: displayShops(model:))
+        configureActivity()
+        viewModel.fetchShops(completion: displayShops, onError: displayError)
     }
     
     // MARK: Configure
@@ -34,10 +35,25 @@ class ViewController: UIViewController {
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
     }
     
+    private func configureActivity() {
+        indicator.center = self.view.center
+        tableView.addSubview(indicator)
+        indicator.startAnimating()
+    }
+    
     // MARK: Display
     
-    func displayShops(model: Model) {
+    func displayShops() {
+        indicator.stopAnimating()
         tableView.reloadData()
+    }
+    
+    func displayError() {
+        indicator.stopAnimating()
+        let alert = UIAlertController(title: "Error", message: "Oops something went wrong", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -56,5 +72,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

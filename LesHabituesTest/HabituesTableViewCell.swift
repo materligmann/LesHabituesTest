@@ -45,7 +45,7 @@ class HabituesTableViewCell: UITableViewCell {
     }
     
     private func configureNameLabel() {
-        nameLabel.font = UIFont(name: "Lato-Bold", size: 17)
+        nameLabel.font = UIFont(name: "Lato-Regular", size: 17)
         nameLabel.textColor = HabituesTableViewCell.UIColorFromRGB(0xC4C4C4)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(nameLabel)
@@ -78,7 +78,7 @@ class HabituesTableViewCell: UITableViewCell {
     }
     
     private func configureOfferLabel() {
-        offerLabel.font = UIFont(name: "Lato-Bold", size: 17)
+        offerLabel.font = UIFont(name: "Lato-Regular", size: 17)
         offerLabel.textColor = HabituesTableViewCell.UIColorFromRGB(0x4A90E2)
         offerLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(offerLabel)
@@ -92,7 +92,7 @@ class HabituesTableViewCell: UITableViewCell {
         nameLabel.text = shop?.chain.uppercased()
         addressLabel.text = shop?.localisations.first?.address
         cityLabel.text = (shop?.localisations.first?.zipcode ?? "") + " " + (shop?.localisations.first?.city ?? "")
-        offerLabel.text = " Up to " + "\(shop?.offers.first?.reduction ?? "") offered"
+        offerLabel.text = " Up to " + "\(shop?.offers.first?.reduction ?? "") € offered"
         if let picture = shop?.picture_url, let url = URL(string: picture) {
             iconView.sd_setImage(with: url, completed: nil)
         }
